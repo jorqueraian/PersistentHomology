@@ -59,8 +59,7 @@ class Test(TestCase):
              Simplex([0, 1, 2], 2), Simplex([0, 3, 4], 2)], fm.Zp(3))
 
         cmap = filtered_simplicial_complex.create_coboundary_map()
-        rcmap = ph_algo.reduce_boundary_map(cmap)
-        print(ph_algo.get_bar_codes(rcmap, rcmap.row_bases, 3, cohomology=True, get_representatives=True))
+        print(ph_algo.get_bar_codes(cmap, 3, cohomology=True, get_representatives=True))
 
     def test_reduction_alg_bmap(self):
         # Results:
