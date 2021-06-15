@@ -99,7 +99,7 @@ def get_bar_codes(b_map, max_dim, cohomology=False, get_representatives=True):
             paired[i] = True
             persistence_pairs.append([reduced_b_map.low(i), i])
 
-    # Add essential simplicies
+    # Add essential simplices
     for i, p in enumerate(paired):
         if not p and reduced_b_map.row_bases[i].dimension < max_dim:
             persistence_pairs.append([i, None])
@@ -165,38 +165,38 @@ def get_cohomology_pairs_from_reduced_boundary_map(reduced_b_map):
 
 def involuted_ph_algo(fsc, max_dim, reps=True):
     barcodes = []
-    paired = [False] * fsc.num_simplicies
+    paired = [False] * fsc.num_simplices
 
     # we store these prev values because the essential p-simplices are computed on the p+1 iteration so we end up
     # computing $D_p$ on the p+1 iteration
     prev_cohomology_pairs = []
-    prev_hom_death_simplicies = []
+    prev_hom_death_simplices = []
 
     for p in range(max_dim + 2):
-        hom_death_simplicies = []
-        essential_simplicies = []
+        hom_death_simplices = []
+        essential_simplices = []
         if p < max_dim + 1:
             # compute reduced coboundary matrix and get cohomology pairs
             # check to see if the lin_com are the cohom cocycles??
             cb_map, _ = reduce_boundary_map(fsc.create_p_coboundary_map(p))
             cohomology_pairs = get_cohomology_pairs_from_reduced_boundary_map(cb_map)
 
-            # compute the homology death p-simplicies
+            # compute the homology death p-simplices
             for i, birth_simplex, j, death_simplex in cohomology_pairs:
                 paired[fsc.simplex_to_index_map_inverted[cb_map.row_bases[i]]] = True
                 paired[fsc.simplex_to_index_map_inverted[cb_map.column_bases[j]]] = True
-                hom_death_simplicies.append(birth_simplex)
+                hom_death_simplices.append(birth_simplex)
                 # I dont compute cocycle reps. But you theoretically can here
 
             # Compute essential (p-1)-simplices
             for i, val in enumerate(paired):
                 if not val and fsc.index_to_simplex_map_inverted[i].dimension < p:   # Big unsure if this will work
-                    essential_simplicies.append(fsc.index_to_simplex_map_inverted[i])
+                    essential_simplices.append(fsc.index_to_simplex_map_inverted[i])
                     paired[i] = True
 
         # at this point we want to compute D_{p-1}
-        if len(prev_hom_death_simplicies) != 0 or len(essential_simplicies) != 0:
-            b_minor_map = fsc.construct_boundary_map_from_simplicies(prev_hom_death_simplicies+essential_simplicies)
+        if len(prev_hom_death_simplices) != 0 or len(essential_simplices) != 0:
+            b_minor_map = fsc.construct_boundary_map_from_simplices(prev_hom_death_simplices + essential_simplices)
             reduced_minor_b_matrix, hom_lin_combs = reduce_boundary_map(b_minor_map)
 
             cycles = []
@@ -227,32 +227,32 @@ def involuted_ph_algo(fsc, max_dim, reps=True):
                     barcode = [p - 2, tuple([pair[3].filtration, pair[1].filtration])]
                 barcodes.append(barcode)
 
-            assert len(essential_simplicies) == len(ess_cycles), "something went wrong with essential simplices and cycles!"
-            for simplex, cycle in zip(essential_simplicies, ess_cycles):
+            assert len(essential_simplices) == len(ess_cycles), "something went wrong with essential simplices and cycles!"
+            for simplex, cycle in zip(essential_simplices, ess_cycles):
                 if reps:
                     barcode = [p - 1, tuple([simplex.filtration, float("inf")]), [s.simplex for s in cycle]]
                 else:
                     barcode = [p - 1, tuple([simplex.filtration, float("inf")])]
                 barcodes.append(barcode)
         prev_cohomology_pairs = cohomology_pairs
-        prev_hom_death_simplicies = hom_death_simplicies
+        prev_hom_death_simplices = hom_death_simplices
 
     return sort_and_clean_barcodes(barcodes)
 
 
 def involuted_ph_algo_clearing(fsc, max_dim, reps=True):
     barcodes = []
-    paired = [False] * fsc.num_simplicies
+    paired = [False] * fsc.num_simplices
 
     # we store these prev values because the essential p-simplices are computed on the p+1 iteration so we end up
     # computing $D_p$ on the p+1 iteration
     prev_cohomology_pairs = []
-    prev_hom_death_simplicies = []
+    prev_hom_death_simplices = []
     clearing = []
 
     for p in range(max_dim + 2):
-        hom_death_simplicies = []
-        essential_simplicies = []
+        hom_death_simplices = []
+        essential_simplices = []
         if p < max_dim + 1:
             # compute reduced coboundary matrix and get cohomology pairs
             # check to see if the lin_com are the cohom cocycles??
@@ -262,22 +262,22 @@ def involuted_ph_algo_clearing(fsc, max_dim, reps=True):
             cb_map, clearing, _ = reduce_p_boundary_and_get_clearing(cb_map)
             cohomology_pairs = get_cohomology_pairs_from_reduced_boundary_map(cb_map)
 
-            # compute the homology death p-simplicies
+            # compute the homology death p-simplices
             for i, birth_simplex, j, death_simplex in cohomology_pairs:
                 paired[fsc.simplex_to_index_map_inverted[cb_map.row_bases[i]]] = True
                 paired[fsc.simplex_to_index_map_inverted[cb_map.column_bases[j]]] = True
-                hom_death_simplicies.append(birth_simplex)
+                hom_death_simplices.append(birth_simplex)
                 # I dont compute cocycle reps. But you theoretically can here
 
             # Compute essential (p-1)-simplices
             for i, val in enumerate(paired):
                 if not val and fsc.index_to_simplex_map_inverted[i].dimension < p:   # Big unsure if this will work
-                    essential_simplicies.append(fsc.index_to_simplex_map_inverted[i])
+                    essential_simplices.append(fsc.index_to_simplex_map_inverted[i])
                     paired[i] = True
 
         # at this point we want to compute D_{p-1}
-        if len(prev_hom_death_simplicies) != 0 or len(essential_simplicies) != 0:
-            b_minor_map = fsc.construct_boundary_map_from_simplicies(prev_hom_death_simplicies+essential_simplicies)
+        if len(prev_hom_death_simplices) != 0 or len(essential_simplices) != 0:
+            b_minor_map = fsc.construct_boundary_map_from_simplices(prev_hom_death_simplices + essential_simplices)
             reduced_minor_b_matrix, hom_lin_combs = reduce_boundary_map(b_minor_map)
 
             cycles = []
@@ -308,15 +308,15 @@ def involuted_ph_algo_clearing(fsc, max_dim, reps=True):
                     barcode = [p - 2, tuple([pair[3].filtration, pair[1].filtration])]
                 barcodes.append(barcode)
 
-            assert len(essential_simplicies) == len(ess_cycles), "something went wrong with essential simplices and cycles!"
-            for simplex, cycle in zip(essential_simplicies, ess_cycles):
+            assert len(essential_simplices) == len(ess_cycles), "something went wrong with essential simplices and cycles!"
+            for simplex, cycle in zip(essential_simplices, ess_cycles):
                 if reps:
                     barcode = [p - 1, tuple([simplex.filtration, float("inf")]), [s.simplex for s in cycle]]
                 else:
                     barcode = [p - 1, tuple([simplex.filtration, float("inf")])]
                 barcodes.append(barcode)
         prev_cohomology_pairs = cohomology_pairs
-        prev_hom_death_simplicies = hom_death_simplicies
+        prev_hom_death_simplices = hom_death_simplices
 
     return sort_and_clean_barcodes(barcodes)
 

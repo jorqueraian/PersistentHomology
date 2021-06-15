@@ -65,13 +65,13 @@ class Test(TestCase):
     def test_reduction_alg_bmap(self):
         # Results:
         # 2-dim 20 points
-        # Number Of Simplicies: 1350
+        # Number Of Simplices: 1350
         # Average Time for 'normal' alg: 9.86622365474701
         # Average Time for 'clearing' alg: 9.781163196563721
         # Average Time for 'clearing2' alg: 10.46381893634796
 
         # 3-dim 12 points
-        # Number Of Simplicies: 793
+        # Number Of Simplices: 793
         # Average Time for 'normal' alg: 3.5520474529266357
         # Average Time for 'clearing' alg: 2.4165234184265136
         # Average Time for 'clearing2' alg: 2.8779487562179566
@@ -83,7 +83,7 @@ class Test(TestCase):
         fsc = pointcloud.get_filtered_simplicial_complex_from_point_cloud(point_cloud=point_cloud, max_eps=2,
                                                                           max_dim=dim,
                                                                           field=fm.Zp(11))
-        print(f"Number Of Simplicies: {fsc.num_simplicies}")
+        print(f"Number Of Simplices: {fsc.num_simplices}")
         bmap = fsc.create_boundary_map()
         bmap_2 = bmap.copy()
         bmap_3 = bmap.copy()
@@ -121,19 +121,19 @@ class Test(TestCase):
         # Results over 50 trials:
 
         # 2-dim 20 points
-        # Number Of Simplicies: 1350
+        # Number Of Simplices: 1350
         # Average Time for 'normal' alg: 4.155983452796936
         # Average Time for 'clearing' alg: 4.051275854110718
         # Average Time for 'clearing2' alg: 3.672375521659851
 
         # 3-dim 12 points
-        # Number Of Simplicies: 793
+        # Number Of Simplices: 793
         # Average Time for 'normal' alg: 1.7547970008850098
         # Average Time for 'clearing' alg: 1.7041664409637451
         # Average Time for 'clearing2' alg: 1.7190111446380616
 
         # 4-dim 10 points
-        # Number Of Simplicies: 637
+        # Number Of Simplices: 637
         # Average Time for 'normal' alg: 1.8635532236099244
         # Average Time for 'clearing' alg: 1.9906368350982666
         # Average Time for 'clearing2' alg: 1.5680986881256103
@@ -144,7 +144,7 @@ class Test(TestCase):
         # point_cloud = pointcloud.load_point_cloud_from_csv(TEST_POINT_CLOUD)
         fsc = pointcloud.get_filtered_simplicial_complex_from_point_cloud(point_cloud=point_cloud, max_eps=2, max_dim=dim,
                                                                           field=fm.Zp(11))
-        print(f"Number Of Simplicies: {fsc.num_simplicies}")
+        print(f"Number Of Simplices: {fsc.num_simplices}")
         bmap = fsc.create_coboundary_map()
         bmap_2 = bmap.copy()
         bmap_3 = bmap.copy()
@@ -182,17 +182,17 @@ class Test(TestCase):
         # Results over 50 trials
 
         # 2-dim 20 points
-        # Number Of Simplicies: 1350
+        # Number Of Simplices: 1350
         # Average Time for 'normal' alg: 2.0548864507675173
         # Average Time for 'clearing' alg: 0.680950379371643
 
         # 3-dim 12 points
-        # Number Of Simplicies: 793
+        # Number Of Simplices: 793
         # Average Time for 'normal' alg: 1.4154572200775146
         # Average Time for 'clearing' alg: 0.26904468059539793
 
         # 4-dim 10 points
-        # Number Of Simplicies: 637
+        # Number Of Simplices: 637
         # Average Time for 'normal' alg: 0.8057827091217041
         # Average Time for 'clearing' alg: 0.34567726135253907
 
@@ -203,7 +203,7 @@ class Test(TestCase):
         fsc = pointcloud.get_filtered_simplicial_complex_from_point_cloud(point_cloud=point_cloud, max_eps=2,
                                                                           max_dim=dim,
                                                                           field=fm.Zp(11))
-        print(f"Number Of Simplicies: {fsc.num_simplicies}")
+        print(f"Number Of Simplices: {fsc.num_simplices}")
 
         avg_time_1 = 0
         avg_time_2 = 0

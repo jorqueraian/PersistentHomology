@@ -32,12 +32,12 @@ def generate_point_cloud_from_sphere(num_points=100, radius=1, dim=2, error=.2):
 def get_filtered_simplicial_complex_from_point_cloud(point_cloud, max_eps, max_dim, field):
     rips_complex = gudhi.RipsComplex(points=point_cloud, max_edge_length=2*max_eps)
     simplex_tree = rips_complex.create_simplex_tree(max_dimension=max_dim)
-    simplicies = []
+    simplices = []
 
     for s in simplex_tree.get_filtration():
-        simplicies.append(Simplex(s[0], s[1]))
+        simplices.append(Simplex(s[0], s[1]))
 
-    return FilteredSimplicialComplex(simplicies, field)
+    return FilteredSimplicialComplex(simplices, field)
 
 
 def save_point_cloud_to_csv(point_cloud, csv_loc):
